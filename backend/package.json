@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend to DeusCreator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Grosze/DeusCreator.git"
+  },
+  "author": "Mateusz Kunze",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Grosze/DeusCreator/issues"
+  },
+  "homepage": "https://github.com/Grosze/DeusCreator#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "lodash": "^4.17.21",
+    "neo4j-driver": "^4.4.1",
+    "neo4js": "^0.0.4",
+    "uuid": "^8.3.2"
+  }
+}
