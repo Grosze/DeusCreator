@@ -3,6 +3,7 @@ import { World } from '../World';
 import { Observable } from '../Observable';
 import { Observer } from '../Observer';
 import { Action } from '../Action';
+import { ActionType } from '../ActionType';
 
 abstract class Organism implements Observable {
     protected power: number;
@@ -81,6 +82,9 @@ abstract class Organism implements Observable {
         return this.isStopped;
     }
 
+    public getNeighbouringFreePositions(): Array<Position> {
+        return this.world.filterFreePositions(this.world.getNeighbouringPositions(this.position));
+    } 
 
     public setPower(power: number): void {
         this.power = power;
@@ -108,6 +112,40 @@ abstract class Organism implements Observable {
 
     public setIsStopped(isStopped: boolean): void {
         this.isStopped = isStopped;
+    }
+
+    public ifReproduce(): Boolean {
+        return this.power >= this.powerToReproduce;
+    }
+
+    public consequences(approachedOrganism: Organism): Array<Action> {
+        const result: Array<Action> = [];
+
+        if (this.power > approachedOrganism.getPower()) {
+            result.push(
+                new Action(
+                    ActionType.ACTION_REMOVE,
+                    new Position(-1, -1),
+                    0,
+                    approachedOrganism
+                )
+            );
+        } else {
+            result.push(
+                new Action(
+                    ActionType.ACTION_REMOVE,
+                    new Position(-1, -1),
+                    0,
+                    this
+                )
+            );
+        };
+
+        if (result.length === 0) {
+            return null;
+        };
+
+        return result;
     }
 
     abstract stringData(): string;
