@@ -1,7 +1,7 @@
 import { Action } from './Action';
 
 interface Observer {
-    update(Action): void;
+    update(action: Action): void;
 };
 
 export { Observer };
