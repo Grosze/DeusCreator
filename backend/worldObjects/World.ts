@@ -1,6 +1,7 @@
 import { Square } from "./Square";
 import { Position } from "./Position";
 import { Organism } from "./Organisms/Organism";
+import { Plant } from "./Organisms/Plants/Plant";
 
 class World {
     private size: Square;
@@ -55,6 +56,48 @@ class World {
         if (result.length === 0) {
             return null;
         };
+
+        return result;
+    }
+
+    public filterPositionsWithoutAnimals(fields: Array<Position>): Array<Position> {
+        const result: Array<Position> = [];
+
+        if (fields !== null) {
+            fields.forEach(field => {
+                const organismFromPosition: Organism = this.getOrganismFromPosition(field);
+
+                if (organismFromPosition === null || organismFromPosition instanceof Plant) {
+                    result.push(field);
+                };
+            });
+        };
+
+        if (result.length === 0) {
+            return null;
+        }
+
+        return result;
+    }
+
+    public filterPositionsWithOtherSpecies(fields: Array<Position>, species: Organism): Array<Position> {
+        const result: Array<Position> = [];
+
+        if (fields !== null) {
+            fields.forEach(field => {
+                const organismFromPosition: Organism = this.getOrganismFromPosition(field);
+
+                if (organismFromPosition !== null) {
+                    if (organismFromPosition.constructor.name !== species.constructor.name) {
+                        result.push(field);
+                    };
+                };
+            });
+        };
+
+        if (result.length === 0) {
+            return null;
+        }
 
         return result;
     }

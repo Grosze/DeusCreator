@@ -1,9 +1,10 @@
-import { Organism } from "../Organism";
-import { Position } from "../../Position";
-import { World } from "../../World";
-import { Action } from "../../Action";
+import { Organism } from '../Organism';
+import { Position } from '../../Position';
+import { World } from '../../World';
+import { Action } from '../../Action';
+import { ActionType } from '../../ActionType';
 
-class Plant extends Organism {
+abstract class Plant extends Organism {
     constructor(organism: Organism, position: Position, world: World) {
         super(organism, position, world);
     }
@@ -13,7 +14,7 @@ class Plant extends Organism {
     public action(): void {
         const result: Array<Action> = [];
         let newPlantBornWhileAction: Plant = null;
-        let newPlantPosition: Position = null
+        let newPlantPosition: Position = null;
 
         if (this.ifReproduce()) {
             const freePositionsAroundPlant: Array<Position> = this.getNeighbouringFreePositions();
@@ -25,9 +26,20 @@ class Plant extends Organism {
                     )
                 ];
 
-                newPlantBornWhileAction = new Plant(this)
+                const newPlantBornWhileAction: Plant = this.factory.createOrganism(this, null, null);
+                newPlantBornWhileAction.initParams();
+
+                newPlantBornWhileAction.setPosition(randomPositionToReproduce);
+
+                this.power /= 2;
+
+                result.push(new Action(ActionType.ACTION_ADD, randomPositionToReproduce, 0, newPlantBornWhileAction));
             }
         }
 
+        result.forEach(action => this.notifyObservers(action));
     }
+    
 }
+
+export { Plant };

@@ -4,6 +4,7 @@ import { Observable } from '../Observable';
 import { Observer } from '../Observer';
 import { Action } from '../Action';
 import { ActionType } from '../ActionType';
+import { OrganismFactory } from './Factories/OrganismFactory';
 
 abstract class Organism implements Observable {
     protected power: number;
@@ -14,6 +15,7 @@ abstract class Organism implements Observable {
     protected world: World;
     protected observersList: Set<Observer>;
     protected isStopped: boolean = false;
+    protected factory: OrganismFactory;
 
     constructor(organism: Organism, position: Position, world: World) {
         if (organism != null) {
@@ -37,6 +39,9 @@ abstract class Organism implements Observable {
         if (world != null) {
             this.world = world;
             
+        };
+
+        switch (this.constructor.name) {
         };
     }
 
